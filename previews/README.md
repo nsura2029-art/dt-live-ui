@@ -20,6 +20,11 @@ Only visual tokens (color, type, radius, shadow, gradient accents) differ.
 - Breadcrumb, footer columns, mobile menu
 - Clickable links → `Clicked from [Header/Footer] → [Page Name]`
 
+## Home body sections (parity)
+
+- **Hero** (shipped): StatsStrip, location pill, title, 12h/24h toggle, sync line, meta chips, LiveClock, CityCard rail, SearchCity, suggestion chips  
+  Reference: `hero=section.png` + https://dateandtime.live/
+
 ## Rule for agents / future tasks
 
 **Whenever any shell or product feature changes, update Design 1, Design 2, and Design 3 in the same response.**  

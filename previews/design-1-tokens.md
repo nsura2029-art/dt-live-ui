@@ -97,9 +97,22 @@ Editorial / Swiss clarity. Light mode only. Information-rich, tight hierarchy, r
 - **Timezones** menu: Timezone Converter · Timezone Difference · Daylight Saving Time  
 - Removed from shell: Meeting Planner, standalone Converter (converter lives under Timezones)
 
+## Hero components (shipped · all 3 directions)
+
+| Component | Notes |
+|-----------|--------|
+| StatsStrip | Today / Day / Week / Local / On this day |
+| LocationPill | Flag + city + IANA + UTC |
+| FormatToggle | 12h / 24h |
+| MetaChip | Weekend, sunrise/sunset, DST variants |
+| LiveClock | Large tabular clock + centiseconds |
+| CityCard | Rail card + home / tint variants |
+| SearchCity | Pill search + API placeholder |
+| CityChip | Suggestion add chips |
+
 ## Future body components (not built yet)
 
-SearchCity, LiveClock, CityCard, TimeZoneBadge, ToolCard, SnapshotCard, SectionHeader, Button, Badge, FAQ, FeedbackWidget, ProgressiveReveal, StaggerGrid.
+TimeZoneBadge, ToolCard, SnapshotCard, SectionHeader, Button, Badge, FAQ, FeedbackWidget, ProgressiveReveal, StaggerGrid.
 
 ## Next.js mapping (after visual LGTM)
 
