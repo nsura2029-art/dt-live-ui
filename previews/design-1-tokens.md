@@ -21,6 +21,13 @@ Editorial / Swiss clarity. Light mode only. Information-rich, tight hierarchy, r
   --color-accent: #2563eb;
   --color-accent-muted: #dbeafe;
 
+  /* Auth / brand gradients (additive) */
+  --gradient-brand: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #7c3aed 100%);
+  --gradient-login: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+  --gradient-login-border: linear-gradient(135deg, #93c5fd 0%, #a5b4fc 100%);
+  --gradient-signup: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+  --gradient-signup-hover: linear-gradient(135deg, #1d4ed8 0%, #4338ca 50%, #6d28d9 100%);
+
   /* Typography */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -73,9 +80,11 @@ Editorial / Swiss clarity. Light mode only. Information-rich, tight hierarchy, r
 
 | Component | Status | Notes |
 |-----------|--------|--------|
-| StickyHeader | Delivered | Brand + desktop nav + dropdowns + menu toggle |
+| StickyHeader | Delivered | Brand mark + wordmark + desktop nav + dropdowns + auth + menu toggle |
+| BrandMark | Delivered | Gradient clock icon mark for dateandtime.live (header + footer) |
+| AuthButtons | Delivered | Log in (soft blue gradient) + Sign up (blue→indigo→violet gradient) |
 | NavDropdown | Delivered | World Time + Timezones (desktop hover/click panels) |
-| MobileMenu | Delivered | Full-screen under header, grouped sections, Escape closes |
+| MobileMenu | Delivered | Full-screen under header, grouped sections, auth row, Escape closes |
 | Breadcrumb | Delivered | Home / current page |
 | Footer | Delivered | Brand + World Time + Timezones + More (no Meeting Planner / standalone Converter) |
 | NavLink | Delivered | `data-page` + `data-source` (Header \| Footer \| Breadcrumb) |
