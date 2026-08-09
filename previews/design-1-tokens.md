@@ -73,12 +73,18 @@ Editorial / Swiss clarity. Light mode only. Information-rich, tight hierarchy, r
 
 | Component | Status | Notes |
 |-----------|--------|--------|
-| StickyHeader | Delivered | Brand + desktop nav + menu toggle |
+| StickyHeader | Delivered | Brand + desktop nav + dropdowns + menu toggle |
+| NavDropdown | Delivered | World Time + Timezones (desktop hover/click panels) |
 | MobileMenu | Delivered | Full-screen under header, grouped sections, Escape closes |
 | Breadcrumb | Delivered | Home / current page |
-| Footer | Delivered | 4-col grid (brand + World time + Timezone + More) |
+| Footer | Delivered | Brand + World Time + Timezones + More (no Meeting Planner / standalone Converter) |
 | NavLink | Delivered | `data-page` + `data-source` (Header \| Footer \| Breadcrumb) |
 | PlaceholderPage | Delivered | “Clicked from [source] → [Page Name]” |
+
+### Nav structure
+- **World Time** menu: World Time · Personal World Time · For Your Site  
+- **Timezones** menu: Timezone Converter · Timezone Difference · Daylight Saving Time  
+- Removed from shell: Meeting Planner, standalone Converter (converter lives under Timezones)
 
 ## Future body components (not built yet)
 

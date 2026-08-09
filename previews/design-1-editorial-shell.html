@@ -38,7 +38,7 @@
     };
   </script>
   <style>
-    /* Design 1 — Editorial / Swiss · frozen shell tokens */
+    /* Design 1 — Editorial / Swiss · shell tokens */
     :root {
       --color-bg: #fafafa;
       --color-surface: #ffffff;
@@ -118,17 +118,59 @@
       color: var(--color-text);
     }
 
-    .mobile-nav-item.is-active {
+    .nav-trigger {
+      transition: color var(--duration-fast) var(--ease-out);
+      color: var(--color-text-muted);
+    }
+    .nav-trigger:hover,
+    .nav-trigger[aria-expanded="true"],
+    .nav-dropdown.has-active .nav-trigger {
+      color: var(--color-text);
+    }
+    .nav-dropdown.has-active .nav-trigger {
+      font-weight: 600;
+    }
+
+    .nav-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 13.5rem;
+      padding: 0.35rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-md);
+      z-index: 60;
+    }
+    .nav-dropdown.is-open .nav-panel {
+      display: block;
+    }
+
+    .nav-panel a {
+      display: block;
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+    }
+    .nav-panel a:hover {
+      background: var(--color-border-subtle);
+      color: var(--color-text);
+    }
+    .nav-panel a.is-active {
       background: var(--color-border-subtle);
       color: var(--color-text);
       font-weight: 600;
     }
 
-    #mobile-menu {
-      transition: opacity var(--duration-normal) var(--ease-out);
-    }
-    #mobile-menu.is-open {
-      display: block;
+    .mobile-nav-item.is-active {
+      background: var(--color-border-subtle);
+      color: var(--color-text);
+      font-weight: 600;
     }
 
     body.menu-open {
@@ -166,14 +208,51 @@
         <a href="#home" data-page="home" data-source="Header" class="nav-link nav-item is-active rounded-md px-2.5 py-1.5">Today</a>
         <a href="#holidays" data-page="holidays" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Holidays</a>
         <a href="#onthisday" data-page="onthisday" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">On this day</a>
-        <a href="#meeting" data-page="meeting" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Meeting finder</a>
+        <a href="#meetingfinder" data-page="meetingfinder" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Meeting finder</a>
+
         <span class="mx-1 h-4 w-px bg-border" aria-hidden="true"></span>
-        <a href="#worldclock" data-page="worldclock" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">World Clock</a>
-        <a href="#meeting" data-page="meeting" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Meeting Planner</a>
+
+        <!-- World Time dropdown -->
+        <div class="nav-dropdown relative" data-dropdown="worldtime">
+          <button
+            type="button"
+            class="nav-trigger inline-flex items-center gap-1 rounded-md px-2.5 py-1.5"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="menu-worldtime"
+          >
+            World Time
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="menu-worldtime" class="nav-panel" role="menu">
+            <a href="#worldtime" data-page="worldtime" data-source="Header" role="menuitem" class="nav-link nav-item">World Time</a>
+            <a href="#personal-worldtime" data-page="personal-worldtime" data-source="Header" role="menuitem" class="nav-link nav-item">Personal World Time</a>
+            <a href="#for-your-site" data-page="for-your-site" data-source="Header" role="menuitem" class="nav-link nav-item">For Your Site</a>
+          </div>
+        </div>
+
+        <!-- Timezones dropdown -->
+        <div class="nav-dropdown relative" data-dropdown="timezones">
+          <button
+            type="button"
+            class="nav-trigger inline-flex items-center gap-1 rounded-md px-2.5 py-1.5"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="menu-timezones"
+          >
+            Timezones
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="menu-timezones" class="nav-panel" role="menu">
+            <a href="#timezone-converter" data-page="timezone-converter" data-source="Header" role="menuitem" class="nav-link nav-item">Timezone Converter</a>
+            <a href="#timezone-difference" data-page="timezone-difference" data-source="Header" role="menuitem" class="nav-link nav-item">Timezone Difference</a>
+            <a href="#daylight-saving" data-page="daylight-saving" data-source="Header" role="menuitem" class="nav-link nav-item">Daylight Saving Time</a>
+          </div>
+        </div>
+
+        <span class="mx-1 h-4 w-px bg-border" aria-hidden="true"></span>
+
         <a href="#event" data-page="event" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Event Time</a>
-        <span class="mx-1 h-4 w-px bg-border" aria-hidden="true"></span>
-        <a href="#timezones" data-page="timezones" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Time Zones</a>
-        <a href="#converter" data-page="converter" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Converter</a>
         <a href="#news" data-page="news" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">News</a>
       </nav>
 
@@ -208,19 +287,21 @@
         <a href="#home" data-page="home" data-source="Header" class="nav-link mobile-nav-item is-active rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Today</a>
         <a href="#holidays" data-page="holidays" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Holidays</a>
         <a href="#onthisday" data-page="onthisday" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">On this day</a>
-        <a href="#meeting" data-page="meeting" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Meeting finder</a>
+        <a href="#meetingfinder" data-page="meetingfinder" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Meeting finder</a>
 
-        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">World time</p>
-        <a href="#worldclock" data-page="worldclock" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">The World Clock</a>
-        <a href="#meeting" data-page="meeting" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Meeting Planner</a>
-        <a href="#event" data-page="event" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Event Time Announcer</a>
+        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">World Time</p>
+        <a href="#worldtime" data-page="worldtime" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">World Time</a>
+        <a href="#personal-worldtime" data-page="personal-worldtime" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Personal World Time</a>
+        <a href="#for-your-site" data-page="for-your-site" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">For Your Site</a>
 
-        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Timezone</p>
-        <a href="#timezones" data-page="timezones" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Time Zones</a>
-        <a href="#converter" data-page="converter" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Time Zone Converter</a>
-        <a href="#news" data-page="news" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">News</a>
+        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Timezones</p>
+        <a href="#timezone-converter" data-page="timezone-converter" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Timezone Converter</a>
+        <a href="#timezone-difference" data-page="timezone-difference" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Timezone Difference</a>
+        <a href="#daylight-saving" data-page="daylight-saving" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Daylight Saving Time</a>
 
         <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">More</p>
+        <a href="#event" data-page="event" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Event Time</a>
+        <a href="#news" data-page="news" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">News</a>
         <a href="#longweekend" data-page="longweekend" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Long Weekends</a>
       </nav>
     </div>
@@ -242,26 +323,28 @@
   <!-- ========== Main (placeholder pages only — no body sections yet) ========== -->
   <main class="flex-1 mx-auto w-full max-w-6xl px-4 sm:px-6 pb-12 pt-2">
 
-    <!-- Home shell placeholder -->
     <div id="page-home" class="page active" data-label="Current Time">
       <div class="rounded-xl border border-dashed border-border bg-surface p-10 sm:p-12 text-center shadow-sm">
         <p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Shell only · Design 1</p>
         <h1 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight text-ink">Home / Current Time</h1>
         <p class="mt-2 text-sm text-muted max-w-md mx-auto leading-relaxed">
-          Body sections will be designed after shell LGTM. Use header, mobile menu, breadcrumb, and footer links to verify navigation.
+          Body sections will be designed after shell LGTM. Use header dropdowns, mobile menu, and footer links to verify navigation.
         </p>
         <p class="mt-6 text-xs text-subtle">Editorial / Swiss · Inter · light mode · mobile-first</p>
       </div>
     </div>
 
-    <!-- Route placeholders: message filled by JS with source + page name -->
+    <!-- Route placeholders filled by JS -->
     <div id="page-holidays" class="page" data-label="Holidays"></div>
     <div id="page-onthisday" class="page" data-label="On this day"></div>
-    <div id="page-meeting" class="page" data-label="Meeting Planner"></div>
-    <div id="page-worldclock" class="page" data-label="World Clock"></div>
-    <div id="page-event" class="page" data-label="Event Time Announcer"></div>
-    <div id="page-timezones" class="page" data-label="Time Zones"></div>
-    <div id="page-converter" class="page" data-label="Time Zone Converter"></div>
+    <div id="page-meetingfinder" class="page" data-label="Meeting finder"></div>
+    <div id="page-worldtime" class="page" data-label="World Time"></div>
+    <div id="page-personal-worldtime" class="page" data-label="Personal World Time"></div>
+    <div id="page-for-your-site" class="page" data-label="For Your Site"></div>
+    <div id="page-timezone-converter" class="page" data-label="Timezone Converter"></div>
+    <div id="page-timezone-difference" class="page" data-label="Timezone Difference"></div>
+    <div id="page-daylight-saving" class="page" data-label="Daylight Saving Time"></div>
+    <div id="page-event" class="page" data-label="Event Time"></div>
     <div id="page-news" class="page" data-label="News"></div>
     <div id="page-longweekend" class="page" data-label="Long Weekends"></div>
 
@@ -278,19 +361,19 @@
           </p>
         </div>
         <div>
-          <p class="text-sm font-semibold text-ink">World time</p>
+          <p class="text-sm font-semibold text-ink">World Time</p>
           <ul class="mt-3 space-y-2 text-sm text-muted">
-            <li><a href="#worldclock" data-page="worldclock" data-source="Footer" class="nav-link hover:text-ink transition-colors">The World Clock</a></li>
-            <li><a href="#meeting" data-page="meeting" data-source="Footer" class="nav-link hover:text-ink transition-colors">Meeting Planner</a></li>
-            <li><a href="#event" data-page="event" data-source="Footer" class="nav-link hover:text-ink transition-colors">Event Time Announcer</a></li>
+            <li><a href="#worldtime" data-page="worldtime" data-source="Footer" class="nav-link hover:text-ink transition-colors">World Time</a></li>
+            <li><a href="#personal-worldtime" data-page="personal-worldtime" data-source="Footer" class="nav-link hover:text-ink transition-colors">Personal World Time</a></li>
+            <li><a href="#for-your-site" data-page="for-your-site" data-source="Footer" class="nav-link hover:text-ink transition-colors">For Your Site</a></li>
           </ul>
         </div>
         <div>
-          <p class="text-sm font-semibold text-ink">Timezone</p>
+          <p class="text-sm font-semibold text-ink">Timezones</p>
           <ul class="mt-3 space-y-2 text-sm text-muted">
-            <li><a href="#timezones" data-page="timezones" data-source="Footer" class="nav-link hover:text-ink transition-colors">Time Zones</a></li>
-            <li><a href="#converter" data-page="converter" data-source="Footer" class="nav-link hover:text-ink transition-colors">Time Zone Converter</a></li>
-            <li><a href="#news" data-page="news" data-source="Footer" class="nav-link hover:text-ink transition-colors">News</a></li>
+            <li><a href="#timezone-converter" data-page="timezone-converter" data-source="Footer" class="nav-link hover:text-ink transition-colors">Timezone Converter</a></li>
+            <li><a href="#timezone-difference" data-page="timezone-difference" data-source="Footer" class="nav-link hover:text-ink transition-colors">Timezone Difference</a></li>
+            <li><a href="#daylight-saving" data-page="daylight-saving" data-source="Footer" class="nav-link hover:text-ink transition-colors">Daylight Saving Time</a></li>
           </ul>
         </div>
         <div>
@@ -298,6 +381,9 @@
           <ul class="mt-3 space-y-2 text-sm text-muted">
             <li><a href="#holidays" data-page="holidays" data-source="Footer" class="nav-link hover:text-ink transition-colors">Holidays</a></li>
             <li><a href="#onthisday" data-page="onthisday" data-source="Footer" class="nav-link hover:text-ink transition-colors">On this day</a></li>
+            <li><a href="#meetingfinder" data-page="meetingfinder" data-source="Footer" class="nav-link hover:text-ink transition-colors">Meeting finder</a></li>
+            <li><a href="#event" data-page="event" data-source="Footer" class="nav-link hover:text-ink transition-colors">Event Time</a></li>
+            <li><a href="#news" data-page="news" data-source="Footer" class="nav-link hover:text-ink transition-colors">News</a></li>
             <li><a href="#longweekend" data-page="longweekend" data-source="Footer" class="nav-link hover:text-ink transition-colors">Long Weekends</a></li>
           </ul>
         </div>
@@ -321,15 +407,22 @@
         home: 'Current Time',
         holidays: 'Holidays',
         onthisday: 'On this day',
-        meeting: 'Meeting Planner',
-        worldclock: 'World Clock',
-        event: 'Event Time Announcer',
-        timezones: 'Time Zones',
-        converter: 'Time Zone Converter',
+        meetingfinder: 'Meeting finder',
+        worldtime: 'World Time',
+        'personal-worldtime': 'Personal World Time',
+        'for-your-site': 'For Your Site',
+        'timezone-converter': 'Timezone Converter',
+        'timezone-difference': 'Timezone Difference',
+        'daylight-saving': 'Daylight Saving Time',
+        event: 'Event Time',
         news: 'News',
         longweekend: 'Long Weekends',
       };
 
+      const worldTimePages = new Set(['worldtime', 'personal-worldtime', 'for-your-site']);
+      const timezonePages = new Set(['timezone-converter', 'timezone-difference', 'daylight-saving']);
+
+      /* ---- Mobile menu ---- */
       function setMenuOpen(open) {
         menu.classList.toggle('hidden', !open);
         iconOpen.classList.toggle('hidden', open);
@@ -344,14 +437,41 @@
       }
 
       menuBtn.addEventListener('click', () => {
-        const isOpen = !menu.classList.contains('hidden');
-        setMenuOpen(!isOpen);
+        setMenuOpen(menu.classList.contains('hidden'));
       });
 
+      /* ---- Desktop dropdowns ---- */
+      function closeAllDropdowns() {
+        document.querySelectorAll('.nav-dropdown').forEach((dd) => {
+          dd.classList.remove('is-open');
+          const btn = dd.querySelector('.nav-trigger');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      document.querySelectorAll('.nav-dropdown').forEach((dd) => {
+        const btn = dd.querySelector('.nav-trigger');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const willOpen = !dd.classList.contains('is-open');
+          closeAllDropdowns();
+          if (willOpen) {
+            dd.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      document.addEventListener('click', () => closeAllDropdowns());
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape') {
+          closeAllDropdowns();
+          closeMenu();
+        }
       });
 
+      /* ---- Placeholders & routing ---- */
       function placeholderHTML(source, pageName) {
         return (
           '<div class="rounded-xl border border-border bg-surface p-10 sm:p-12 text-center shadow-sm">' +
@@ -363,7 +483,6 @@
         );
       }
 
-      // Pre-render static placeholders for non-home pages (default Header source until clicked)
       Object.keys(pageLabels).forEach((key) => {
         if (key === 'home') return;
         const el = document.getElementById('page-' + key);
@@ -374,12 +493,17 @@
 
       function setActiveNav(page) {
         document.querySelectorAll('.nav-item').forEach((el) => {
-          const isMatch = el.getAttribute('data-page') === page;
-          el.classList.toggle('is-active', isMatch);
+          el.classList.toggle('is-active', el.getAttribute('data-page') === page);
         });
         document.querySelectorAll('.mobile-nav-item').forEach((el) => {
-          const isMatch = el.getAttribute('data-page') === page;
-          el.classList.toggle('is-active', isMatch);
+          el.classList.toggle('is-active', el.getAttribute('data-page') === page);
+        });
+        document.querySelectorAll('.nav-dropdown').forEach((dd) => {
+          const key = dd.getAttribute('data-dropdown');
+          const active =
+            (key === 'worldtime' && worldTimePages.has(page)) ||
+            (key === 'timezones' && timezonePages.has(page));
+          dd.classList.toggle('has-active', active);
         });
       }
 
@@ -397,10 +521,10 @@
 
         crumbCurrent.textContent = label;
         setActiveNav(page);
+        closeAllDropdowns();
         closeMenu();
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Reflect route in hash without reload
         if (history.replaceState) {
           history.replaceState(null, '', '#' + page);
         }
@@ -409,13 +533,13 @@
       document.querySelectorAll('.nav-link').forEach((link) => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
+          e.stopPropagation();
           const page = link.getAttribute('data-page');
           const source = link.getAttribute('data-source') || 'Header';
           if (page) navigate(page, source);
         });
       });
 
-      // Deep-link support
       const hash = (location.hash || '').replace('#', '');
       if (hash && pageLabels[hash]) {
         navigate(hash, 'Header');
