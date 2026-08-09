@@ -1,5 +1,7 @@
 # Design 1 — Editorial / Swiss · Design System (Shell freeze candidate)
 
+> **Parity:** Feature structure must match Design 2 and Design 3. See `previews/README.md`.
+
 ## Direction
 Editorial / Swiss clarity. Light mode only. Information-rich, tight hierarchy, restrained blue accent.
 

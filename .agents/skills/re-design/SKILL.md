@@ -10,6 +10,7 @@ Premium mobile-first redesign skill for date-and-time utility products. Always p
 ## Core Rules
 
 - Default output: exactly 3 distinct visual directions for the same feature set (user can request more).
+- **Three-direction parity (mandatory):** Design 1 (Editorial / Swiss), Design 2 (Soft Utility), and Design 3 (Refined Monochrome) must always share the same information architecture, nav items, menus, auth actions, pages, components, and behaviors. Any shell or feature change must be applied to all three in the same response—only tokens/visual language differ. Never update only one direction unless the user explicitly asks for a single direction.
 - Default stack: Next.js App Router (React Server Components + client components where needed) + Tailwind CSS. Leave clear, well-commented placeholders for API integration (fetch, server actions, or route handlers). Pure HTML + Tailwind CDN + light vanilla JS is available only when the user explicitly requests it.
 - Components: recreate patterns inspired by 21st.dev and beui.dev as clean, reusable HTML/CSS/JS pieces that live in the design system. Never copy external code verbatim.
 - Component consistency is non-negotiable. Once a component (card, button, clock display, nav item, data row, badge, etc.) is defined for a direction, the identical markup structure, class names, variants, and behavior must be reused on every page of that direction. Do not invent one-off versions.

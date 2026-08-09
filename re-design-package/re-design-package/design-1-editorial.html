@@ -3,207 +3,684 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Design 1 — Editorial / Swiss | dateandtime.live</title>
+  <title>Design 1 — Editorial / Swiss · Shared Shell | dateandtime.live</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            bg: 'var(--color-bg)',
+            surface: 'var(--color-surface)',
+            border: 'var(--color-border)',
+            'border-subtle': 'var(--color-border-subtle)',
+            ink: 'var(--color-text)',
+            muted: 'var(--color-text-muted)',
+            subtle: 'var(--color-text-subtle)',
+            accent: 'var(--color-accent)',
+            'accent-muted': 'var(--color-accent-muted)',
+          },
+          boxShadow: {
+            sm: 'var(--shadow-sm)',
+            md: 'var(--shadow-md)',
+          },
+          transitionTimingFunction: {
+            out: 'var(--ease-out)',
+          },
+        },
+      },
+    };
+  </script>
   <style>
+    /* Design 1 — Editorial / Swiss · shell tokens */
     :root {
-      --bg: #fafafa; --surface: #ffffff; --border: #e4e4e7; --border-subtle: #f4f4f5;
-      --text: #18181b; --muted: #71717a; --subtle: #a1a1aa; --accent: #2563eb;
+      --color-bg: #fafafa;
+      --color-surface: #ffffff;
+      --color-surface-elevated: #ffffff;
+      --color-border: #e4e4e7;
+      --color-border-subtle: #f4f4f5;
+      --color-text: #18181b;
+      --color-text-muted: #71717a;
+      --color-text-subtle: #a1a1aa;
+      --color-primary: #18181b;
+      --color-primary-foreground: #fafafa;
+      --color-accent: #2563eb;
+      --color-accent-muted: #dbeafe;
+
+      /* Auth / brand gradients */
+      --gradient-brand: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #7c3aed 100%);
+      --gradient-login: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+      --gradient-login-border: linear-gradient(135deg, #93c5fd 0%, #a5b4fc 100%);
+      --gradient-signup: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+      --gradient-signup-hover: linear-gradient(135deg, #1d4ed8 0%, #4338ca 50%, #6d28d9 100%);
+
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-3xl: 1.875rem;
+      --text-4xl: 2.25rem;
+      --text-5xl: 3rem;
+      --text-clock: clamp(2.5rem, 8vw, 4.5rem);
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-2xl: 1.25rem;
+
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+
+      --duration-fast: 150ms;
+      --duration-normal: 300ms;
+      --duration-slow: 500ms;
+      --duration-reveal: 700ms;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --stagger-step: 80ms;
     }
-    body { font-family: "Inter", system-ui, sans-serif; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
     .page { display: none; }
     .page.active { display: block; }
+
+    .nav-item {
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+    .nav-item.is-active {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+    .nav-item:not(.is-active) {
+      color: var(--color-text-muted);
+    }
+    .nav-item:not(.is-active):hover {
+      color: var(--color-text);
+    }
+
+    .nav-trigger {
+      transition: color var(--duration-fast) var(--ease-out);
+      color: var(--color-text-muted);
+    }
+    .nav-trigger:hover,
+    .nav-trigger[aria-expanded="true"],
+    .nav-dropdown.has-active .nav-trigger {
+      color: var(--color-text);
+    }
+    .nav-dropdown.has-active .nav-trigger {
+      font-weight: 600;
+    }
+
+    .nav-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 13.5rem;
+      padding: 0.35rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-md);
+      z-index: 60;
+    }
+    .nav-dropdown.is-open .nav-panel {
+      display: block;
+    }
+
+    .nav-panel a {
+      display: block;
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+    }
+    .nav-panel a:hover {
+      background: var(--color-border-subtle);
+      color: var(--color-text);
+    }
+    .nav-panel a.is-active {
+      background: var(--color-border-subtle);
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .mobile-nav-item.is-active {
+      background: var(--color-border-subtle);
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    /* Brand mark — monogram from dateandtime.live */
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.5rem;
+      background: var(--gradient-brand);
+      box-shadow: 0 1px 2px rgb(37 99 235 / 0.25), inset 0 1px 0 rgb(255 255 255 / 0.2);
+      flex-shrink: 0;
+    }
+    .brand-mark svg {
+      display: block;
+    }
+
+    /* Auth buttons */
+    .btn-login {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 2rem;
+      padding: 0 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #1e3a8a;
+      background: var(--gradient-login);
+      border: 1px solid transparent;
+      background-image: var(--gradient-login), var(--gradient-login-border);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      box-shadow: 0 1px 2px rgb(37 99 235 / 0.08);
+      transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out), filter var(--duration-fast) var(--ease-out);
+    }
+    .btn-login:hover {
+      filter: brightness(0.98);
+      box-shadow: 0 2px 8px rgb(37 99 235 / 0.14);
+      transform: translateY(-0.5px);
+    }
+
+    .btn-signup {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 2rem;
+      padding: 0 0.95rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      background: var(--gradient-signup);
+      box-shadow: 0 1px 2px rgb(79 70 229 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.18);
+      transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+    }
+    .btn-signup:hover {
+      background: var(--gradient-signup-hover);
+      box-shadow: 0 4px 12px rgb(79 70 229 / 0.35);
+      transform: translateY(-0.5px);
+    }
+
+    .btn-login:active,
+    .btn-signup:active {
+      transform: translateY(0);
+    }
+
+    .auth-actions-mobile .btn-login,
+    .auth-actions-mobile .btn-signup {
+      height: 2.5rem;
+      flex: 1;
+      font-size: 0.875rem;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
   </style>
 </head>
-<body class="bg-[var(--bg)] text-[var(--text)] min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col antialiased">
 
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur">
-    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-      <a href="#" data-page="home" class="nav-link shrink-0 text-base font-semibold tracking-tight hover:opacity-80">dateandtime.live</a>
-      <nav class="hidden lg:flex items-center gap-5 text-sm font-medium">
-        <a href="#" data-page="home" class="nav-link text-[var(--text)]">Today</a>
-        <a href="#" data-page="holidays" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">Holidays</a>
-        <a href="#" data-page="onthisday" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">On this day</a>
-        <a href="#" data-page="meeting" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">Meeting finder</a>
-        <span class="h-4 w-px bg-[var(--border)]"></span>
-        <a href="#" data-page="worldclock" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">World Clock</a>
-        <a href="#" data-page="meeting" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">Meeting Planner</a>
-        <a href="#" data-page="event" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">Event Time</a>
-        <span class="h-4 w-px bg-[var(--border)]"></span>
-        <a href="#" data-page="timezones" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">Time Zones</a>
-        <a href="#" data-page="converter" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">Converter</a>
-        <a href="#" data-page="news" class="nav-link text-[var(--muted)] hover:text-[var(--text)]">News</a>
+  <!-- ========== StickyHeader ========== -->
+  <header class="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <div class="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4 sm:px-6">
+      <!-- Brand: icon + wordmark (from dateandtime.live) -->
+      <a
+        href="#home"
+        data-page="home"
+        data-source="Header"
+        class="nav-link group flex shrink-0 items-center gap-2 min-w-0 hover:opacity-90"
+        aria-label="dateandtime.live home"
+      >
+        <span class="brand-mark" aria-hidden="true" title="dateandtime.live">
+          <!-- Clock + globe mark: time for the world -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.25" stroke="white" stroke-width="1.6"/>
+            <path d="M12 8.2v4.1l2.6 1.6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.8 12h1.4M17.8 12h1.4M12 4.8v1.4M12 17.8v1.4" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.85"/>
+          </svg>
+        </span>
+        <span class="text-[15px] font-semibold tracking-tight text-ink truncate">
+          <span class="sm:hidden">dt.live</span>
+          <span class="hidden sm:inline">dateandtime.live</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden lg:flex flex-1 items-center justify-center gap-1 text-[13px] font-medium min-w-0" aria-label="Primary">
+        <a href="#home" data-page="home" data-source="Header" class="nav-link nav-item is-active rounded-md px-2.5 py-1.5">Today</a>
+        <a href="#holidays" data-page="holidays" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Holidays</a>
+        <a href="#onthisday" data-page="onthisday" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">On this day</a>
+        <a href="#meetingfinder" data-page="meetingfinder" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Meeting finder</a>
+
+        <span class="mx-1 h-4 w-px bg-border" aria-hidden="true"></span>
+
+        <!-- World Time dropdown -->
+        <div class="nav-dropdown relative" data-dropdown="worldtime">
+          <button
+            type="button"
+            class="nav-trigger inline-flex items-center gap-1 rounded-md px-2.5 py-1.5"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="menu-worldtime"
+          >
+            World Time
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="menu-worldtime" class="nav-panel" role="menu">
+            <a href="#worldtime" data-page="worldtime" data-source="Header" role="menuitem" class="nav-link nav-item">World Time</a>
+            <a href="#personal-worldtime" data-page="personal-worldtime" data-source="Header" role="menuitem" class="nav-link nav-item">Personal World Time</a>
+            <a href="#for-your-site" data-page="for-your-site" data-source="Header" role="menuitem" class="nav-link nav-item">For Your Site</a>
+          </div>
+        </div>
+
+        <!-- Timezones dropdown -->
+        <div class="nav-dropdown relative" data-dropdown="timezones">
+          <button
+            type="button"
+            class="nav-trigger inline-flex items-center gap-1 rounded-md px-2.5 py-1.5"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="menu-timezones"
+          >
+            Timezones
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="menu-timezones" class="nav-panel" role="menu">
+            <a href="#timezone-converter" data-page="timezone-converter" data-source="Header" role="menuitem" class="nav-link nav-item">Timezone Converter</a>
+            <a href="#timezone-difference" data-page="timezone-difference" data-source="Header" role="menuitem" class="nav-link nav-item">Timezone Difference</a>
+            <a href="#daylight-saving" data-page="daylight-saving" data-source="Header" role="menuitem" class="nav-link nav-item">Daylight Saving Time</a>
+          </div>
+        </div>
+
+        <span class="mx-1 h-4 w-px bg-border" aria-hidden="true"></span>
+
+        <a href="#event" data-page="event" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">Event Time</a>
+        <a href="#news" data-page="news" data-source="Header" class="nav-link nav-item rounded-md px-2.5 py-1.5">News</a>
       </nav>
-      <button id="menu-btn" type="button" aria-label="Open menu" class="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-[var(--border)] hover:bg-[var(--border-subtle)]">
-        <svg id="icon-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg id="icon-close" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
+
+      <!-- Auth + mobile toggle -->
+      <div class="ml-auto flex shrink-0 items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2" aria-label="Account">
+          <a href="#login" data-page="login" data-source="Header" class="nav-link btn-login">Log in</a>
+          <a href="#signup" data-page="signup" data-source="Header" class="nav-link btn-signup">Sign up</a>
+        </div>
+        <!-- Compact auth on very small screens when menu closed -->
+        <div class="flex sm:hidden items-center gap-1.5" aria-label="Account">
+          <a href="#login" data-page="login" data-source="Header" class="nav-link btn-login px-2.5 !h-8 text-xs">Log in</a>
+          <a href="#signup" data-page="signup" data-source="Header" class="nav-link btn-signup px-2.5 !h-8 text-xs">Sign up</a>
+        </div>
+        <button
+          id="menu-btn"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          class="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface text-ink hover:bg-border-subtle transition-colors"
+        >
+          <svg id="icon-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="icon-close" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
     </div>
-    <div id="mobile-menu" class="hidden fixed inset-0 top-14 z-40 bg-white lg:hidden overflow-y-auto border-t border-[var(--border)]">
-      <nav class="flex flex-col px-4 py-6 gap-1 text-base font-medium">
-        <p class="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--subtle)]">Today</p>
-        <a href="#" data-page="home" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Today</a>
-        <a href="#" data-page="holidays" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Holidays</a>
-        <a href="#" data-page="onthisday" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">On this day</a>
-        <a href="#" data-page="meeting" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Meeting finder</a>
-        <p class="mt-4 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--subtle)]">World time</p>
-        <a href="#" data-page="worldclock" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">The World Clock</a>
-        <a href="#" data-page="meeting" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Meeting Planner</a>
-        <a href="#" data-page="event" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Event Time Announcer</a>
-        <p class="mt-4 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--subtle)]">Timezone</p>
-        <a href="#" data-page="timezones" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Time Zones</a>
-        <a href="#" data-page="converter" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">Time Zone Converter</a>
-        <a href="#" data-page="news" class="nav-link rounded-lg px-3 py-2.5 hover:bg-[var(--border-subtle)]">News</a>
+
+    <!-- ========== MobileMenu ========== -->
+    <div
+      id="mobile-menu"
+      class="hidden fixed inset-0 top-14 z-40 bg-surface lg:hidden overflow-y-auto border-t border-border"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile navigation"
+    >
+      <nav class="flex flex-col px-4 py-5 gap-0.5 text-[15px] font-medium" aria-label="Mobile primary">
+        <p class="px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Today</p>
+        <a href="#home" data-page="home" data-source="Header" class="nav-link mobile-nav-item is-active rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Today</a>
+        <a href="#holidays" data-page="holidays" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Holidays</a>
+        <a href="#onthisday" data-page="onthisday" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">On this day</a>
+        <a href="#meetingfinder" data-page="meetingfinder" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Meeting finder</a>
+
+        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">World Time</p>
+        <a href="#worldtime" data-page="worldtime" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">World Time</a>
+        <a href="#personal-worldtime" data-page="personal-worldtime" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Personal World Time</a>
+        <a href="#for-your-site" data-page="for-your-site" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">For Your Site</a>
+
+        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Timezones</p>
+        <a href="#timezone-converter" data-page="timezone-converter" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Timezone Converter</a>
+        <a href="#timezone-difference" data-page="timezone-difference" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Timezone Difference</a>
+        <a href="#daylight-saving" data-page="daylight-saving" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Daylight Saving Time</a>
+
+        <p class="mt-4 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">More</p>
+        <a href="#event" data-page="event" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Event Time</a>
+        <a href="#news" data-page="news" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">News</a>
+        <a href="#longweekend" data-page="longweekend" data-source="Header" class="nav-link mobile-nav-item rounded-lg px-3 py-2.5 text-ink hover:bg-border-subtle">Long Weekends</a>
+
+        <div class="auth-actions-mobile mt-6 flex gap-2 px-3 pb-6">
+          <a href="#login" data-page="login" data-source="Header" class="nav-link btn-login">Log in</a>
+          <a href="#signup" data-page="signup" data-source="Header" class="nav-link btn-signup">Sign up</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <!-- BREADCRUMB -->
+  <!-- ========== Breadcrumb ========== -->
   <nav aria-label="Breadcrumb" class="mx-auto w-full max-w-6xl px-4 sm:px-6 py-3">
-    <ol class="flex flex-wrap items-center gap-1.5 text-sm text-[var(--muted)]">
-      <li><a href="#" data-page="home" class="nav-link hover:text-[var(--text)]">Home</a></li>
-      <li class="flex items-center gap-1.5"><span class="text-[var(--subtle)]">/</span><span id="crumb-current" class="font-medium text-[var(--text)]">Current Time</span></li>
+    <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted">
+      <li>
+        <a href="#home" data-page="home" data-source="Breadcrumb" class="nav-link hover:text-ink transition-colors">Home</a>
+      </li>
+      <li class="flex items-center gap-1.5">
+        <span class="text-subtle select-none" aria-hidden="true">/</span>
+        <span id="crumb-current" class="font-medium text-ink" aria-current="page">Current Time</span>
+      </li>
     </ol>
   </nav>
 
-  <!-- PAGES -->
-  <main class="flex-1 mx-auto w-full max-w-6xl px-4 sm:px-6 py-10">
-    <div id="page-home" class="page active">
-      <div class="rounded-xl border border-dashed border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Home / Current Time</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Body sections will be designed after shell LGTM.</p>
-        <p class="mt-4 text-xs text-[var(--subtle)]">Design 1 — Editorial / Swiss clarity · Inter · tight hierarchy</p>
+  <!-- ========== Main (placeholder pages only — no body sections yet) ========== -->
+  <main class="flex-1 mx-auto w-full max-w-6xl px-4 sm:px-6 pb-12 pt-2">
+
+    <div id="page-home" class="page active" data-label="Current Time">
+      <div class="rounded-xl border border-dashed border-border bg-surface p-10 sm:p-12 text-center shadow-sm">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Shell only · Design 1</p>
+        <h1 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight text-ink">Home / Current Time</h1>
+        <p class="mt-2 text-sm text-muted max-w-md mx-auto leading-relaxed">
+          Body sections will be designed after shell LGTM. Use header dropdowns, mobile menu, and footer links to verify navigation.
+        </p>
+        <p class="mt-6 text-xs text-subtle">Editorial / Swiss · Inter · light mode · mobile-first</p>
       </div>
     </div>
-    <div id="page-holidays" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → Holidays</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for Holidays.</p>
-      </div>
-    </div>
-    <div id="page-onthisday" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → On this day</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for On this day.</p>
-      </div>
-    </div>
-    <div id="page-meeting" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → Meeting Planner / Meeting finder</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for Meeting tools.</p>
-      </div>
-    </div>
-    <div id="page-worldclock" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → World Clock</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for The World Clock.</p>
-      </div>
-    </div>
-    <div id="page-event" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → Event Time Announcer</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for Event Time.</p>
-      </div>
-    </div>
-    <div id="page-timezones" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → Time Zones</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for Time Zones.</p>
-      </div>
-    </div>
-    <div id="page-converter" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → Time Zone Converter</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for Converter.</p>
-      </div>
-    </div>
-    <div id="page-news" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Header → News</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for News.</p>
-      </div>
-    </div>
-    <div id="page-longweekend" class="page">
-      <div class="rounded-xl border border-[var(--border)] bg-white p-12 text-center">
-        <p class="text-lg font-semibold">Clicked from Footer → Long Weekends</p>
-        <p class="mt-2 text-sm text-[var(--muted)]">Placeholder page content for Long Weekends.</p>
-      </div>
-    </div>
+
+    <!-- Route placeholders filled by JS -->
+    <div id="page-holidays" class="page" data-label="Holidays"></div>
+    <div id="page-onthisday" class="page" data-label="On this day"></div>
+    <div id="page-meetingfinder" class="page" data-label="Meeting finder"></div>
+    <div id="page-worldtime" class="page" data-label="World Time"></div>
+    <div id="page-personal-worldtime" class="page" data-label="Personal World Time"></div>
+    <div id="page-for-your-site" class="page" data-label="For Your Site"></div>
+    <div id="page-timezone-converter" class="page" data-label="Timezone Converter"></div>
+    <div id="page-timezone-difference" class="page" data-label="Timezone Difference"></div>
+    <div id="page-daylight-saving" class="page" data-label="Daylight Saving Time"></div>
+    <div id="page-event" class="page" data-label="Event Time"></div>
+    <div id="page-news" class="page" data-label="News"></div>
+    <div id="page-longweekend" class="page" data-label="Long Weekends"></div>
+    <div id="page-login" class="page" data-label="Log in"></div>
+    <div id="page-signup" class="page" data-label="Sign up"></div>
+
   </main>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-[var(--border)] bg-white mt-auto">
+  <!-- ========== Footer ========== -->
+  <footer class="border-t border-border bg-surface mt-auto">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10">
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
         <div class="col-span-2 sm:col-span-1">
-          <p class="text-sm font-semibold">dateandtime.live</p>
-          <p class="mt-2 text-sm text-[var(--muted)] leading-relaxed">Live time for 33,945 cities across 408 time zones. Free, accurate, no signup.</p>
+          <a href="#home" data-page="home" data-source="Footer" class="nav-link inline-flex items-center gap-2 text-sm font-semibold text-ink hover:opacity-80">
+            <span class="brand-mark !w-6 !h-6 !rounded-md" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="8.25" stroke="white" stroke-width="1.6"/>
+                <path d="M12 8.2v4.1l2.6 1.6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            dateandtime.live
+          </a>
+          <p class="mt-2 text-sm text-muted leading-relaxed">
+            Live time for 33,945 cities across 408 time zones. Free, accurate, no signup.
+          </p>
         </div>
         <div>
-          <p class="text-sm font-semibold">World time</p>
-          <ul class="mt-3 space-y-2 text-sm text-[var(--muted)]">
-            <li><a href="#" data-page="worldclock" class="nav-link hover:text-[var(--text)]">The World Clock</a></li>
-            <li><a href="#" data-page="meeting" class="nav-link hover:text-[var(--text)]">Meeting Planner</a></li>
-            <li><a href="#" data-page="event" class="nav-link hover:text-[var(--text)]">Event Time Announcer</a></li>
+          <p class="text-sm font-semibold text-ink">World Time</p>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#worldtime" data-page="worldtime" data-source="Footer" class="nav-link hover:text-ink transition-colors">World Time</a></li>
+            <li><a href="#personal-worldtime" data-page="personal-worldtime" data-source="Footer" class="nav-link hover:text-ink transition-colors">Personal World Time</a></li>
+            <li><a href="#for-your-site" data-page="for-your-site" data-source="Footer" class="nav-link hover:text-ink transition-colors">For Your Site</a></li>
           </ul>
         </div>
         <div>
-          <p class="text-sm font-semibold">Timezone</p>
-          <ul class="mt-3 space-y-2 text-sm text-[var(--muted)]">
-            <li><a href="#" data-page="timezones" class="nav-link hover:text-[var(--text)]">Time Zones</a></li>
-            <li><a href="#" data-page="converter" class="nav-link hover:text-[var(--text)]">Time Zone Converter</a></li>
-            <li><a href="#" data-page="news" class="nav-link hover:text-[var(--text)]">News</a></li>
+          <p class="text-sm font-semibold text-ink">Timezones</p>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#timezone-converter" data-page="timezone-converter" data-source="Footer" class="nav-link hover:text-ink transition-colors">Timezone Converter</a></li>
+            <li><a href="#timezone-difference" data-page="timezone-difference" data-source="Footer" class="nav-link hover:text-ink transition-colors">Timezone Difference</a></li>
+            <li><a href="#daylight-saving" data-page="daylight-saving" data-source="Footer" class="nav-link hover:text-ink transition-colors">Daylight Saving Time</a></li>
           </ul>
         </div>
         <div>
-          <p class="text-sm font-semibold">More</p>
-          <ul class="mt-3 space-y-2 text-sm text-[var(--muted)]">
-            <li><a href="#" data-page="holidays" class="nav-link hover:text-[var(--text)]">Holidays</a></li>
-            <li><a href="#" data-page="onthisday" class="nav-link hover:text-[var(--text)]">On this day</a></li>
-            <li><a href="#" data-page="longweekend" class="nav-link hover:text-[var(--text)]">Long Weekends</a></li>
+          <p class="text-sm font-semibold text-ink">More</p>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#holidays" data-page="holidays" data-source="Footer" class="nav-link hover:text-ink transition-colors">Holidays</a></li>
+            <li><a href="#onthisday" data-page="onthisday" data-source="Footer" class="nav-link hover:text-ink transition-colors">On this day</a></li>
+            <li><a href="#meetingfinder" data-page="meetingfinder" data-source="Footer" class="nav-link hover:text-ink transition-colors">Meeting finder</a></li>
+            <li><a href="#event" data-page="event" data-source="Footer" class="nav-link hover:text-ink transition-colors">Event Time</a></li>
+            <li><a href="#news" data-page="news" data-source="Footer" class="nav-link hover:text-ink transition-colors">News</a></li>
+            <li><a href="#longweekend" data-page="longweekend" data-source="Footer" class="nav-link hover:text-ink transition-colors">Long Weekends</a></li>
+            <li><a href="#login" data-page="login" data-source="Footer" class="nav-link hover:text-ink transition-colors">Log in</a></li>
+            <li><a href="#signup" data-page="signup" data-source="Footer" class="nav-link hover:text-ink transition-colors">Sign up</a></li>
           </ul>
         </div>
       </div>
-      <div class="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-[var(--border-subtle)] pt-6">
-        <p class="text-xs text-[var(--subtle)]">© 2026 dateandtime.live · Design 1 — Editorial / Swiss</p>
-        <p class="text-xs text-[var(--subtle)]">Free · No signup · Privacy-friendly</p>
+      <div class="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-border-subtle pt-6">
+        <p class="text-xs text-subtle">© 2026 dateandtime.live · Design 1 — Editorial / Swiss</p>
+        <p class="text-xs text-subtle">Free · No signup · Privacy-friendly</p>
       </div>
     </div>
   </footer>
 
   <script>
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    const iconOpen = document.getElementById('icon-open');
-    const iconClose = document.getElementById('icon-close');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-      iconOpen.classList.toggle('hidden');
-      iconClose.classList.toggle('hidden');
-    });
+    (function () {
+      const menuBtn = document.getElementById('menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('icon-open');
+      const iconClose = document.getElementById('icon-close');
+      const crumbCurrent = document.getElementById('crumb-current');
 
-    const labels = {
-      home: 'Current Time', holidays: 'Holidays', onthisday: 'On this day', meeting: 'Meeting Planner',
-      worldclock: 'World Clock', event: 'Event Time', timezones: 'Time Zones', converter: 'Converter',
-      news: 'News', longweekend: 'Long Weekends'
-    };
+      const pageLabels = {
+        home: 'Current Time',
+        holidays: 'Holidays',
+        onthisday: 'On this day',
+        meetingfinder: 'Meeting finder',
+        worldtime: 'World Time',
+        'personal-worldtime': 'Personal World Time',
+        'for-your-site': 'For Your Site',
+        'timezone-converter': 'Timezone Converter',
+        'timezone-difference': 'Timezone Difference',
+        'daylight-saving': 'Daylight Saving Time',
+        event: 'Event Time',
+        news: 'News',
+        longweekend: 'Long Weekends',
+        login: 'Log in',
+        signup: 'Sign up',
+      };
 
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const page = link.getAttribute('data-page');
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        const target = document.getElementById('page-' + page);
-        if (target) target.classList.add('active');
-        document.getElementById('crumb-current').textContent = labels[page] || page;
-        menu.classList.add('hidden');
-        iconOpen.classList.remove('hidden');
-        iconClose.classList.add('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      const worldTimePages = new Set(['worldtime', 'personal-worldtime', 'for-your-site']);
+      const timezonePages = new Set(['timezone-converter', 'timezone-difference', 'daylight-saving']);
+
+      /* ---- Mobile menu ---- */
+      function setMenuOpen(open) {
+        menu.classList.toggle('hidden', !open);
+        iconOpen.classList.toggle('hidden', open);
+        iconClose.classList.toggle('hidden', !open);
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.body.classList.toggle('menu-open', open);
+      }
+
+      function closeMenu() {
+        setMenuOpen(false);
+      }
+
+      menuBtn.addEventListener('click', () => {
+        setMenuOpen(menu.classList.contains('hidden'));
       });
-    });
+
+      /* ---- Desktop dropdowns ---- */
+      function closeAllDropdowns() {
+        document.querySelectorAll('.nav-dropdown').forEach((dd) => {
+          dd.classList.remove('is-open');
+          const btn = dd.querySelector('.nav-trigger');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      document.querySelectorAll('.nav-dropdown').forEach((dd) => {
+        const btn = dd.querySelector('.nav-trigger');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const willOpen = !dd.classList.contains('is-open');
+          closeAllDropdowns();
+          if (willOpen) {
+            dd.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      document.addEventListener('click', () => closeAllDropdowns());
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeAllDropdowns();
+          closeMenu();
+        }
+      });
+
+      /* ---- Placeholders & routing ---- */
+      function placeholderHTML(source, pageName) {
+        var authNote = '';
+        if (pageName === 'Log in' || pageName === 'Sign up') {
+          authNote =
+            '<p class="mt-4 text-sm text-muted max-w-sm mx-auto leading-relaxed">' +
+            (pageName === 'Log in'
+              ? 'Login form UI will be designed after shell LGTM. Auth API placeholders go here.'
+              : 'Signup form UI will be designed after shell LGTM. Auth API placeholders go here.') +
+            '</p>';
+        }
+        return (
+          '<div class="rounded-xl border border-border bg-surface p-10 sm:p-12 text-center shadow-sm">' +
+            '<p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle">Placeholder</p>' +
+            '<p class="mt-3 text-lg sm:text-xl font-semibold tracking-tight text-ink">Clicked from ' + source + ' → ' + pageName + '</p>' +
+            '<p class="mt-2 text-sm text-muted">Placeholder page content for ' + pageName + '.</p>' +
+            authNote +
+            '<p class="mt-6 text-xs text-subtle">Shell navigation works. Body sections pending LGTM.</p>' +
+          '</div>'
+        );
+      }
+
+      Object.keys(pageLabels).forEach((key) => {
+        if (key === 'home') return;
+        const el = document.getElementById('page-' + key);
+        if (el && !el.innerHTML.trim()) {
+          el.innerHTML = placeholderHTML('Header', pageLabels[key]);
+        }
+      });
+
+      function setActiveNav(page) {
+        document.querySelectorAll('.nav-item').forEach((el) => {
+          el.classList.toggle('is-active', el.getAttribute('data-page') === page);
+        });
+        document.querySelectorAll('.mobile-nav-item').forEach((el) => {
+          el.classList.toggle('is-active', el.getAttribute('data-page') === page);
+        });
+        document.querySelectorAll('.nav-dropdown').forEach((dd) => {
+          const key = dd.getAttribute('data-dropdown');
+          const active =
+            (key === 'worldtime' && worldTimePages.has(page)) ||
+            (key === 'timezones' && timezonePages.has(page));
+          dd.classList.toggle('has-active', active);
+        });
+      }
+
+      function navigate(page, source) {
+        const label = pageLabels[page] || page;
+        const target = document.getElementById('page-' + page);
+        if (!target) return;
+
+        document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
+        target.classList.add('active');
+
+        if (page !== 'home') {
+          target.innerHTML = placeholderHTML(source || 'Header', label);
+        }
+
+        crumbCurrent.textContent = label;
+        setActiveNav(page);
+        closeAllDropdowns();
+        closeMenu();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (history.replaceState) {
+          history.replaceState(null, '', '#' + page);
+        }
+      }
+
+      document.querySelectorAll('.nav-link').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const page = link.getAttribute('data-page');
+          const source = link.getAttribute('data-source') || 'Header';
+          if (page) navigate(page, source);
+        });
+      });
+
+      const hash = (location.hash || '').replace('#', '');
+      if (hash && pageLabels[hash]) {
+        navigate(hash, 'Header');
+      }
+    })();
   </script>
 </body>
 </html>
